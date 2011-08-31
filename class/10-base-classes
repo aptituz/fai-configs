@@ -5,4 +5,8 @@ uname -s | tr '[:lower:]' '[:upper:]'
 [ -x "`which dpkg`" ] && dpkg --print-architecture | tr a-z A-Z
 
 [ -f /etc/RUNNING_FROM_FAICD ] && echo "FAICD"
+
+# Define a COMMON clas
+echo "COMMON"
+
 exit 0
