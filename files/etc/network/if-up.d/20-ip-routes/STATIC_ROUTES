@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+# Script to setup a system's static routes based on the
+# /etc/network/ip-routes definitions.
+# It tries to simplify network route management and make it easier
+# to handle those as requested in bug #368228 ('Wish: Better Handling 
+# of up/down route commands'). With this script routes do not have to be 
+# introduced in /etc/network/interfaces (in 'up' and 'down' commands).
+#
+# This file includes a list of routes for different networks and follows
+# the format is just like the ouput/input format of the ip command
+#
+# Install this script in /etc/network/if-up.d/ (to setup the routes) and in 
+# /etc/network/if-pre-down.d/ (if you want to remove the routes before
+# deconfiguring the interface)
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#  
+# You can also find a copy of the GNU General Public License at
+# http://www.gnu.org/licenses/licenses.html#TOCLGPL
+
+# Abort if the configuration file does not exist
+[ ! -r /etc/network/ip-routes ] && exit 0
+[ -z "$VERBOSITY" ] && VERBOSITY="0"
+
+del_static_routes() {
+	# NOTE: We actually don't have to remove routes if downing an interface
+	# since they will be removed nevertheless. In any case, this 
+	# piece of code only runs if you install this file in 
+	# /etc/network/if-pre-down.d/ (which you don't need to)
+	cat /etc/network/ip-routes | grep "$IFACE" | 
+	while read line ; do
+		[ "$VERBOSITY" -eq "1" ] && echo "DEBUG: Deleting route: $line"
+		/sbin/ip route del $line
+	done
+}
+
+add_static_routes() {
+	cat /etc/network/ip-routes | grep "$IFACE" | 
+	while read line ; do
+		[ "$VERBOSITY" -eq "1" ] && echo "DEBUG: Adding route: $line"
+		/sbin/ip route add $line
+	done
+}
+
+case "$MODE" in 
+	start) add_static_routes ;;
+	stop)  del_static_routes ;;
+	*)     ;;
+esac
+
+exit 0
