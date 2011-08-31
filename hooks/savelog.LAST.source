@@ -122,13 +122,18 @@ X: bytes  packets  errors
 ACPI Error
 ACPI Warning
 cannot stat \`/etc/modprobe.d/\*.conf'
-cdrom: open failed."
+cdrom: open failed.
+PM: Resume from disk failed.
+aufs: module is from the staging directory
+warning: script 'nis' missing LSB tags"
 
 # add pattern on some conditions
 if [ -n $FAI_ALLOW_UNSIGNED ] ; then
    globalignorepatterns="$globalignorepatterns
 WARNING: untrusted versions
-Ignoring these trust violations"
+Ignoring these trust violations
+WARNING: The following packages cannot be authenticated!
+Authentication warning overridden"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Here you can define your own patterns. Put one pattern in a line,
