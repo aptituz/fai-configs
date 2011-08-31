@@ -1,0 +1,15 @@
+PACKAGES aptitude
+cron
+debconf-utils
+file
+hdparm
+less
+openssh-client openssh-server
+time
+exim4
+eject
+locales
+console-common
+pciutils usbutils
+lvm2
+vim
