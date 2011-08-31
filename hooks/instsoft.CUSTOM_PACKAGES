@@ -2,10 +2,13 @@
 
 set -e
 
+add=0
 P_PKG="$FAI/packages"
 if [ -d $P_PKG/dists]; then
     # config contains repo, just copy it
-    cp -ar $P_PKG $target/root
+    if cp -ar $P_PKG $target/root; then
+        add=1
+    fi
 elif [ -d $P_PKG ]; then
     if [ `ls -1 $P_PKG/*.deb 2>/dev/null|wc -l` -gt 0 ]; then
         # config contains packages only, create repo if possible
@@ -23,8 +26,9 @@ Architectures: i386 amd64
 Components: main
 Description: Custom packages
 EOF
-        reprepro --basedir $target/root/packages includedeb custom $P_PKG/*.deb
-        add=1
+        if reprepro --basedir $target/root/packages includedeb custom $P_PKG/*.deb; then
+            add=1
+        fi
         else
             echo "Unable to find reprepro in NFSROOT. Unable to create repo"
             exit 1
@@ -34,12 +38,11 @@ EOF
     fi
 else
     echo "No packages directory."
-    add=0
 fi
      
 if [ "$add" = '1' ]; then
     ainsl -a $target/etc/apt/sources.list.d/custom-packages.list "deb file:/root/packages custom main"
-    $ROOTCMD apt-get updat
+    $ROOTCMD apt-get update
 fi
 
 
