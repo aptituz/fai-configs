@@ -32,7 +32,7 @@ EOF
     else
         echo "Packages directory is entry."
     fi
-else;
+else
     echo "No packages directory."
     add=0
 fi
@@ -40,6 +40,6 @@ fi
 if [ "$add" = '1' ]; then
     ainsl -a $target/etc/apt/sources.list.d/custom-packages.list "deb file:/root/packages custom main"
     $ROOTCMD apt-get updat
-efi
+fi
 
 
