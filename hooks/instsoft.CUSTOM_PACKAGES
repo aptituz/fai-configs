@@ -13,7 +13,7 @@ elif [ -d $P_PKG ]; then
         if [ -x /usr/bin/reprepro ]; then
             mkdir $target/root/packages
             mkdir $target/root/packages/conf
-            cat > $target/root/packages/conf/distributions <EOF
+            cat > $target/root/packages/conf/distributions <<EOF
 Origin: Debian
 Label: Debian-All
 Suite: custom
