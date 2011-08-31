@@ -9,4 +9,4 @@ primary -	   4096-    -	  -
 disk_config lvm
 vg	    vg0	   disk1.2
 vg0-swap    swap   RAM:100%	swap	sw
-vg0-root    /	   4096-	-	-
+vg0-root    /	   4096-	ext3	-
