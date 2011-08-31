@@ -1,0 +1,21 @@
+PACKAGES install
+build-essential
+cdebootstrap
+dpkg-dev
+devscripts
+make
+sbuild
+schroot
+pbuilder
+cowbuilder
+cowdancer
+doxygen
+dpatch
+dput
+debian-policy
+po-debconf
+pristine-tar
+cdbs
+connect-proxy
+dh-make
+quilt
