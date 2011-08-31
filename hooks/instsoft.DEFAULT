@@ -1,0 +1,2 @@
+# workaround for df warnings
+$ROOTCMD /etc/init.d/mtab.sh start
