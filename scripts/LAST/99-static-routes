@@ -2,3 +2,4 @@
 set -e
 
 fcopy -v -m root,root,0755 /etc/network/if-up.d/20-ip-routes
+fcopy -iMv /etc/network/ip-routes
