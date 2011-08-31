@@ -19,8 +19,3 @@ editfiles:
 	{ ${target}/etc/default/rcS
 	  ReplaceAll "^UTC=.*" With "UTC=${UTC}"
 	}
-
-	{ ${target}/etc/inittab
-	  ReplaceAll "/sbin/getty 38400"
-		With "/sbin/getty -f /etc/issue.linuxlogo 38400"
-	}
