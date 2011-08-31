@@ -23,7 +23,7 @@ Architectures: i386 amd64
 Components: main
 Description: Custom packages
 EOF
-        reprepro --basedir $target/root/packages includedeb $P_PKG/*.deb
+        reprepro --basedir $target/root/packages includedeb custom $P_PKG/*.deb
         add=1
         else
             echo "Unable to find reprepro in NFSROOT. Unable to create repo"
