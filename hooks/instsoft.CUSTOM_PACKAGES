@@ -4,7 +4,7 @@ set -e
 
 add=0
 P_PKG="$FAI/packages"
-if [ -d $P_PKG/dists]; then
+if [ -d $P_PKG/dists ]; then
     # config contains repo, just copy it
     if cp -ar $P_PKG $target/root; then
         add=1
