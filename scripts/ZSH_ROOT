@@ -1,0 +1,12 @@
+#!/bin/sh
+
+error=0 ; trap "error=$((error|1))" ERR
+
+# Configure zsh as root shell 
+$ROOTCMD chsh -s /bin/zsh root
+
+# Copy a .zshrc if existing
+fcopy -Miv /root/.zshrc
+
+exit $error
+

@@ -1,0 +1,5 @@
+PACKAGES install
+zsh
+
+PACKAGES install ZSH_DOC
+zsh-doc
