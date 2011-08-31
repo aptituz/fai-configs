@@ -1,0 +1,45 @@
+#!/bin/sh
+
+set -e
+
+P_PKG="$FAI/packages"
+if [ -d $P_PKG/dists]; then
+    # config contains repo, just copy it
+    cp -ar $P_PKG $target/root
+elif [ -d $P_PKG ]; then
+    if [ `ls -1 $P_PKG/*.deb 2>/dev/null|wc -l` -gt 0 ]; then
+        # config contains packages only, create repo if possible
+        # Find reprepro
+        if [ -x /usr/bin/reprepro ]; then
+            mkdir $target/root/packages
+            mkdir $target/root/packages/conf
+            cat > $target/root/packages/conf/distributions <EOF
+Origin: Debian
+Label: Debian-All
+Suite: custom
+Codename: custom
+Version: 5.0
+Architectures: i386 amd64
+Components: main
+Description: Custom packages
+EOF
+        reprepro --basedir $target/root/packages includedeb $P_PKG/*.deb
+        add=1
+        else
+            echo "Unable to find reprepro in NFSROOT. Unable to create repo"
+            exit 1
+        fi
+    else
+        echo "Packages directory is entry."
+    fi
+else;
+    echo "No packages directory."
+    add=0
+fi
+     
+if [ "$add" = '1' ]; then
+    ainsl -a $target/etc/apt/sources.list.d/custom-packages.list "deb file:/root/packages custom main"
+    $ROOTCMD apt-get updat
+efi
+
+

@@ -1,0 +1,2 @@
+# Always define CUSTOM_PACKAGES class
+newclasses="$newclasses CUSTOM_PACKAGES"
