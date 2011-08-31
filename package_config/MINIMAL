@@ -6,7 +6,7 @@ hdparm
 less
 openssh-client openssh-server
 time
-exim4
+postfix
 eject
 locales
 console-common
