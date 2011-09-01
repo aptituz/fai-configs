@@ -6,8 +6,8 @@ uname -s | tr '[:lower:]' '[:upper:]'
 
 [ -f /etc/RUNNING_FROM_FAICD ] && echo "FAICD"
 
-# Always define the MINIMAL class
-echo "MINIMAL"
+# Always define the BASE class
+echo "BASE"
 
 # Define a COMMON clas
 echo "COMMON"
