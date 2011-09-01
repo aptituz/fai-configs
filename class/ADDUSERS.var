@@ -1,0 +1,18 @@
+# These vars define default values for scripts/ADDUSERS
+# To actually make use of this script you have to define a variable
+# ADDUSERS, either below or a in a different .var file with a space-seperated
+# list of users, you want to add.
+#
+# You can override the list of groups for every user by adding one of
+# the following variables with DEFAULT replaced by the username.
+#
+# e.g. GROUPS_<username>="wheel mail www-data"
+#
+# Apart from that its possible to specify groups that should be added
+# *additionally* to the default groups. Thats achieve by adding something like
+#
+# GROUPS_ADDITIONAL_<username>="group1 group2"
+GROUPS_DEFAULT="dialout cdrom floppy sudo audio video plugdev powerdev netdev libvirt sbuild"
+PASSWD_DEFAULT="default"
+SHELL_DEFAULT="/bin/bash"
+GECOS_DEFAULT=""

@@ -1,0 +1,40 @@
+#!/bin/sh
+# script to add users which are defined in the $ADDUSERS variable
+
+set -e
+
+if [ -z "$ADDUSERS" ]; then
+    echo "ADDUSERS: No users to add."
+    exit 0;
+fi
+
+for username in $ADDUSERS; do
+    group_var="GROUPS_$username"
+    group_additional_var="GROUPS_ADDITIONAL_$username"
+    passwd_var="PASSWD_$username"
+    shell_var="SHELL_$username"
+    gecos_var="GECOS_$username"
+   
+    ADDGROUPS="$GROUPS_DEFAULT"
+    PASSWD="$PASSWD_DEFAULT"
+    SHELL="$SHELL_DEFAULT"
+    GECOS="$GECOS_DEFAULT"
+
+    [ -n "${!group_var}" ] && ADDGROUPS="${!group_var}"
+    [ -n "${!passwd_var}" ]&& PASSWD="${!passwd_var}"
+    [ -n "${!shell_var}" ] && SHELL="${!shell_var}"
+    [ -n "${!gecos_var}" ] && GECOS="${!gecos_var}"
+    [ -n "${!group_additional_var}" ] && \
+        ADDGROUPS="$ADDGROUPS ${!group_additional_var}"
+
+    # create user
+    $ROOTCMD adduser --disabled--password --gecos "$GECOS" $username
+
+    # set shell
+    $ROOTCMD chsh -s $SHELL $username
+
+    # add user to its groups
+    for group in $ADDGROUPS; do
+        $ROOTCMD adduser $username $group
+    done
+done
