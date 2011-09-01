@@ -16,6 +16,5 @@ debian-policy
 po-debconf
 pristine-tar
 cdbs
-connect-proxy
 dh-make
 quilt
