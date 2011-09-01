@@ -1,0 +1,113 @@
+Modular FAI-Config
+------------------
+Patrick Schoenfeld <patrick.schoenfeld@googlemail.com>
+
+Introduction
+------------
+This is an approach to provide a modular FAI config which has often used
+configurations (at least often used by the author ;) in various modules
+which can be mixed together.
+
+The basic idea is that the master branch reflects a very basic FAI
+installation. It should only contain the bare minimum to get a somehwat usable
+system up and reachable via ssh.
+
+Every possible feature, like additional classes or hooks to manage custom
+package repositories during installation, are packed into Feature-branches
+and should normally not conflict with the master branch or any other
+Feature-Branch. So it should be possible to create an own FAI configuration
+by simply creating an own git repository from the master branch and merging
+each module which shall be available in the target FAI configuration.
+
+Example
+-------
+The following example creates a basic FAI configuration, consting of
+the base system, classes for german keyboard layout and/or environment
+and classes for zsh installation and configuration.
+
+mkdir /srv/fai/config; cd /srv/fai/config
+
+git init
+
+git remote add fai-configs git://github.com/aptituz/fai-configs.git
+
+git fetch fai-configs
+
+git merge fai-configs/master
+
+git merge fai-configs/german
+
+git merge fai-configs/zsh
+
+Features
+--------
+Below is a description of the feature branches.
+
+master
+~~~~~~
+The base branch. Contains a disk_config which creates a basic LVM partitioning
+with a 250M /boot partition and a PV with a minimum size of 4096M. A volume
+group vg0 will be created, with a swap device where the size is 100% of the
+available RAM and the rest is used for /.
+
+feature/cryptoroot
+~~~~~~~~~~~~~~~~~~
+Includes the class CRYPTOROOT. If selected, it will install the required
+packages for a cryptoroot in the target system.
+
+feature/custom_packages
+~~~~~~~~~~~~~~~~~~~~~~~
+Includes a hook to handle a directory with a bunch of packages as a custom as
+a apt, which will be added to the apt configuration before installing packages.
+
+Usage:
+1) Create a directory named 'packages' in the configuration space top level
+
+2) 
+Either:
+- Create a reprepro repository (with codename/suite custom) in that directory,
+  which must use 'custom' as a codename and 'main' as Component.
+OR
+- Drop a bunch of deb files there and install reprepro in the NFSROOT
+  But note that the hook by default creates a config to handle i386 and amd64
+  packages only in a Suite named custom and a Component 'main'
+
+3) Use packages from this repo in your package_config as you like
+
+feature/custom_static_routes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Includes a class STATIC_ROUTES which will, if activated for a node,
+install a file /etc/network/if-up.d/20-ip-routes to the target system
+and (if existing in the files/ hiearchy) a file /etc/network/ip-routes.
+This script handles adding static routes from ip-routes.
+Syntax is the syntax of the 'ip route add' command, without 'ip route add'.
+
+feature/debian_devel
+~~~~~~~~~~~~~~~~~~~~
+Includes a class DEBIAN_DEVEL with a custom package_config for Debian-related
+development (like build-essential, dh-make, dpkg-dev and a bunch of others).
+
+feature/german
+~~~~~~~~~~~~~~
+Includes a class GERMAN and a class GERMAN_ENV. The first will only configure
+a german keymap and add de_DE.UTF-8 to the list of generated locales,
+while GERMAN_ENV also includes a package_config which installs the 'german'
+task via aptitude.
+
+feature/notebook
+~~~~~~~~~~~~~~~~
+Includes the classes NOTEBOOK and WLAN. Currently NOTEBOOK is just installing
+laptop-detect and WLAN the 'wireless-tools'.
+
+feature/xorg
+~~~~~~~~~~~~
+Includes the class XORG which installs packages typically needed
+in an XORG environment.
+
+feature/zsh
+~~~~~~~~~~~
+Includes the class ZSH, ZSH_DOC and ZSH_ROOT.
+ZSH and ZSH_DOC are just classes which refer to package_configs which install
+zsh and zsh-doc respectively. ZSH_ROOT is a special class which installs
+zsh and configures it as the root shell. It will also copy a .zshrc to /root
+if an appropriate file is available in the files/ hiearchy.
