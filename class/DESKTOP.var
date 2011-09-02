@@ -1,0 +1,13 @@
+# Define a system user
+ADDUSERS="psc"
+SHELL_psc="/bin/zsh"
+GECOS_psc="Patrick Schoenfeld"
+GROUPS_ADDITIONAL_psc="libvirt sbuild""
+
+# Configure some alternatives
+ALTERNATIVES_0="x-terminal-emulator /usr/bin/urxvt"
+ALTERNATIVES_1="editor /usr/bin/vim.nox"
+ALTERNATIVES_2="x-www-browser /usr/bin/chromium-browser"
+
+# Misc settings
+DOTFILES_URI="git@github.com:aptituz/dotfiles.git"
