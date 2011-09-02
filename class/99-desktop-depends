@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if ifclass DESKTOP; then
+    echo "XORG GERMAN GERMAN_ENV DEBIAN_DEVEL ZSH ZSH_ROOT"
+    
+fi
