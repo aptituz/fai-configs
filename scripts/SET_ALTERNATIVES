@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+# Script to configure alternatives based on environment variables
+# ALTERNATIVES_n="<name> <path>"
+
+break=0
+for n in $(seq 0 999); do
+    var="ALTERNATIVES_$n"
+    if [ -n "${!var}" ]; then
+        eval set -- "${!var}"
+        name=$1
+        path=$2
+        echo $ROOTCMD update-alternatives --set $name $path
+    else
+        break
+    fi
+done
+
+
