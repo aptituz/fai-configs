@@ -18,3 +18,4 @@ pristine-tar
 cdbs
 dh-make
 quilt
+patchutils
