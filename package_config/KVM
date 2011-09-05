@@ -1,0 +1,6 @@
+PACKAGES install
+kvm
+qemu-kvm
+bridge-utils
+libvirt-bin
+virt-manager
